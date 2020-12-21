@@ -3,3 +3,7 @@ server:
 spring:
   application:
     name: springboot-learn
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
