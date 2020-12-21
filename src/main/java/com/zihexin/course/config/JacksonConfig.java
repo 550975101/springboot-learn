@@ -1,5 +1,6 @@
 package com.zihexin.course.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,12 +19,18 @@ import java.io.IOException;
 //在 Spring Boot 中，我们做一 下配置即可，新建一个 jackson 的配置类
 @Configuration
 public class JacksonConfig {
-
+  /**
+   * 测试jackson请把 fastjson注释
+   * @param builder
+   * @return
+   */
   @Bean
   @Primary
   @ConditionalOnMissingBean(ObjectMapper.class)
   public ObjectMapper jacksonObjectMapper(Jackson2ObjectMapperBuilder builder) {
     ObjectMapper objectMapper = builder.createXmlMapper(false).build();
+    //null值 不参与序列化 还是参与吧 看业务 感觉不太友好
+    //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     objectMapper.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
       @Override
       public void serialize(Object o, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {

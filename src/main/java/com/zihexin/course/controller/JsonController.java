@@ -40,4 +40,14 @@ public class JsonController {
     map.put("粉丝数量", 1000);
     return map;
   }
+
+  @RequestMapping("/mapContainNull")
+  public Map<String, Object> getMapContainNull() {
+    HashMap<String, Object> map = Maps.newHashMap();
+    map.put("作者信息", new User(1L, "王某", null));
+    map.put("博客地址", "www.baidu.com");
+    map.put("CSDN地址", "www.baidu.com");
+    map.put("粉丝数量", null);
+    return map;
+  }
 }
