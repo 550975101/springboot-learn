@@ -1,0 +1,17 @@
+server:
+  port: 8080 # 启动端口
+spring:
+  application:
+    name: springboot-learn
+logging:
+  config: classpath:logback.xml
+  level:
+    root: info
+#配置微服务地址
+url:
+  #订单微服务
+  orderUrl: http://localhost:8002
+  #用户微服务
+  userUrl: http://localhost:8003
+  #购物车微服务
+  shoppingUrl: http://localhost:8004
