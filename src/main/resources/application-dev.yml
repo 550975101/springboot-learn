@@ -13,3 +13,10 @@ url:
   userUrl: http://localhost:8003
   #购物车微服务
   shoppingUrl: http://localhost:8004
+# ===== 自定义swagger配置 ===== #
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: springfox swagger 3.0整合Demo
+  try-host: http://localhost:${server.port}
