@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客列表</title>
+</head>
+<body>
+<!--可以看出，其实和处理单个对象信息差不多，-->
+<!--Thymeleaf 使用 th:each 进行遍历，-->
+<!--${} 取 model 中 传过来的参数，然后自定义 list 中取出来的每个对象，-->
+<!--这里定义为 blogger。表单里面可以直接使用 -->
+<!--${对象.属性名} 来获取 list 中对象的属性值，也可以使用 ${对象.get方法} 来获取，-->
+<!--这点和上面处理 对象信息是一样的，-->
+<!--但是不能使用 *{属性名} 来获取对象中的属性，thymeleaf 模板获取不到。-->
+<form action="" th:each="blogger : ${bloggerList}">
+    用户编号: <input type="text" th:value="${blogger.id}" name="id" id="bloggerId"></br>
+    用户姓名: <input type="text" th:value="${blogger.getUserName()}" name="userName" id="bloggerName"></br>
+    登陆密码: <input type="text" th:value="${blogger.password}" name="password" id="bloggerPass">
+</form>
+</body>
+</html>

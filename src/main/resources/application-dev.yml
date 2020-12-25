@@ -20,3 +20,12 @@ swagger:
   application-version: 1.0
   application-description: springfox swagger 3.0整合Demo
   try-host: http://localhost:${server.port}
+
+#一般我们做网站的时 候，都会做一个 404 页面和 500 页面，
+#为了出错时给用户一个友好的展示，而不至于一堆异常信息抛 出来。
+#Spring Boot 中会自动识别模板目录（templates/）下的 404.html 和 500.html 文件。
+#我们在 templates/ 目录下新建一个 error 文件夹，专门放置错误的 html 页面，
+#然后分别打印些信息。以 404.html 为例：
+spring:
+  thymeleaf:
+    cache: false #关闭缓存  修改了一个文件 完事也重启了 但是刷新页面还是之前的页面，就是因为缓存引起的

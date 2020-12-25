@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博主信息</title>
+</head>
+<body>
+<!--可以看出，在 thymeleaf 模板中，使用 th:object="${}" 来获取对象信息，然后在表单里面可以有三 种方式来获取对象属性。如下：-->
+<!--使用 th:value="*{属性名}" 使用 th:value="${对象.属性名}" ,
+对象指的是上面使用 th:object 获取的对象 使用 th:value="${对象.get方法}" ，
+对象指的是上面使用 th:object 获取的对象-->
+<form action="" th:object="${blogger}">
+    用户编号: <input type="text" th:value="${blogger.id}" name="id" id="bloggerId"></br>
+    用户姓名: <input type="text" th:value="${blogger.getUserName()}" name="userName" id="bloggerName"></br>
+    登陆密码: <input type="text" th:value="*{password}" name="password" id="bloggerPass">
+</form>
+</body>
+</html>
