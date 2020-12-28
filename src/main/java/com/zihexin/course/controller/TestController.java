@@ -133,4 +133,10 @@ public class TestController {
     return userService.getUserByIdAndName(id, name);
   }
 
+  @RequestMapping("/adduser")
+  public String addUser(@RequestBody User user) {
+    Integer integer = userService.insertUser(user);
+    return integer == 0 ? "false" : "success";
+  }
+
 }

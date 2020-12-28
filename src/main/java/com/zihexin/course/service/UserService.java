@@ -11,4 +11,6 @@ public interface UserService {
   User getUserByName(String username);
 
   User getUserByIdAndName(Long id, String  userName);
+
+  Integer insertUser(User user);
 }

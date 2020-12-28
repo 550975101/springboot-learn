@@ -1,6 +1,7 @@
 package com.zihexin.course.dao;
 import java.util.List;
 
+import nonapi.io.github.classgraph.json.Id;
 import org.apache.ibatis.annotations.*;
 
 import com.zihexin.course.entity.User;
@@ -31,6 +32,7 @@ public interface UserMapper {
   @Results(
     id = "userMap",
     value = {
+      @Result(property = "id",column = "id"),
     @Result(property = "username", column = "user_name"),
     @Result(property = "password", column = "password")
     }
@@ -47,4 +49,12 @@ public interface UserMapper {
   @Select("SELECT * FROM USER WHERE ID = #{id} AND USER_NAME = #{name}")
   @ResultMap("userMap")
   User getUserByIdAndName(@Param("id") Long id,@Param("name") String  userName);
+
+  /**
+   * 插入数据
+   * @param user
+   * @return
+   */
+  @Insert("INSERT INTO USER (ID,USER_NAME,PASSWORD) VALUES (#{id},#{username},#{password})")
+  Integer insertUser(User user);
 }
