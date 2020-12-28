@@ -1,8 +1,10 @@
 package com.zihexin.course.controller;
 
 import com.zihexin.course.entity.User;
+import com.zihexin.course.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.*;
 public class TestController {
 
   private final static Logger logger = LoggerFactory.getLogger(TestController.class);
+
+  @Autowired
+  private UserService userService;
 
   @RequestMapping("/log")
   public String testLog() {
@@ -117,4 +122,15 @@ public class TestController {
     logger.info("获取到的password为{}", user.getPassword());
     return "success";
   }
+
+  @RequestMapping("/getUserByName/{name}")
+  public User getUserByName(@PathVariable String name) {
+    return userService.getUserByName(name);
+  }
+
+  @RequestMapping("/getUserByName/{id}/{name}")
+  public User getUserByIdAndName(@PathVariable Long id,@PathVariable String name) {
+    return userService.getUserByIdAndName(id, name);
+  }
+
 }

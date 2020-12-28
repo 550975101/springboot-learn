@@ -29,3 +29,15 @@ swagger:
 spring:
   thymeleaf:
     cache: false #关闭缓存  修改了一个文件 完事也重启了 但是刷新页面还是之前的页面，就是因为缓存引起的
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/test?serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      max-lifetime: 170000
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath:mapper/*.xml
