@@ -47,4 +47,9 @@ public class UserServiceImpl implements UserService {
     int i = 1 / 0;
     return num;
   }
+
+  @Override
+  public User getUser() {
+    return new User(1L, "王某", "123456");
+  }
 }

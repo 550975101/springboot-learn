@@ -7,6 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * @author 封心
  */
@@ -139,4 +146,44 @@ public class TestController {
     return integer == 0 ? "false" : "success";
   }
 
+  @GetMapping("/userTest")
+  public User getUser(HttpServletRequest request) {
+    ServletContext servletContext = request.getServletContext();
+    return (User) servletContext.getAttribute("user");
+  }
+
+  /**
+   * 该 Controller 中是直接获取当前 session 中的用户数量，启动服务器，
+   * 在浏览器中输入 localhost:8080/test/total 可以看到返回的结果是1，
+   * 再打开一个浏览器，请求相同的地址可 以看到 count 是 2 ，这没有问题。
+   * 但是如果关闭一个浏览器再打开，理论上应该还是2，
+   * 但是实际测试 却是 3。
+   * 原因是 session 销毁的方法没有执行（可以在后台控制台观察日志打印情况），
+   * 当重新打开 时，服务器找不到用户原来的 session，于是又重新创建了一个 session，那怎么解决该问题呢
+   * @param request
+   * @return
+   */
+  @GetMapping("/total")
+  public String getTotalUser(HttpServletRequest request) {
+    ServletContext servletContext = request.getSession().getServletContext();
+    Integer count = (Integer) servletContext.getAttribute("count");
+    return "当前在线人数" + count;
+  }
+
+  @GetMapping("/total2")
+  public String getTotalTUser(HttpServletRequest request, HttpServletResponse response) {
+    Cookie cookie;
+    try {
+      cookie = new Cookie("JSESSIONID", URLEncoder.encode(request.getSession().getId(), "utf-8"));
+      cookie.setPath("/");
+      //设置cookie有效期为2天，设置长一点
+      cookie.setMaxAge(48 * 60 * 60);
+      response.addCookie(cookie);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    ServletContext servletContext = request.getSession().getServletContext();
+    Integer count = (Integer) servletContext.getAttribute("count");
+    return "当前在线人数" + count;
+  }
 }

@@ -1,8 +1,10 @@
 package com.zihexin.course.config;
 
+import com.zihexin.course.monitor.MyHttpSessionListener;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ReflectionUtils;
@@ -15,6 +17,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
+import javax.servlet.http.HttpSessionListener;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -31,7 +34,7 @@ public class Swagger3Config implements WebMvcConfigurer {
   }
 
   @Bean
-  public Docket createApi(){
+  public Docket createApi() {
     return new Docket(DocumentationType.OAS_30)
       // 定义是否开启swagger，false为关闭，可以通过变量控制
       .enable(swaggerProperties.getEnable())
@@ -73,14 +76,14 @@ public class Swagger3Config implements WebMvcConfigurer {
     );
   }
 
-  public ApiInfo apiInfo(){
+  public ApiInfo apiInfo() {
     return new ApiInfoBuilder()
       // 设置页面标题
       .title("swagger3.0文档")
       //// 设置接口描述
       .description("文件描述")
-       // 设置联系方式
-      .contact(new Contact("封心","www.baidu.com","www.baidu.com"))
+      // 设置联系方式
+      .contact(new Contact("封心", "www.baidu.com", "www.baidu.com"))
       //设置版本
       .version("1.0")
       .termsOfServiceUrl("http://localhost:8080")
@@ -116,5 +119,12 @@ public class Swagger3Config implements WebMvcConfigurer {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  @Bean
+  public ServletListenerRegistrationBean<HttpSessionListener> sessionListener() {
+    ServletListenerRegistrationBean<HttpSessionListener> listenerRegBean = new ServletListenerRegistrationBean<>();
+    listenerRegBean.setListener(new MyHttpSessionListener());
+    return listenerRegBean;
   }
 }
