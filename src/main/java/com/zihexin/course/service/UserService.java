@@ -15,4 +15,6 @@ public interface UserService {
   Integer insertUser(User user);
 
   User getUser();
+
+  User getUser2();
 }

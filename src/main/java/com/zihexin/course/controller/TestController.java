@@ -186,4 +186,10 @@ public class TestController {
     Integer count = (Integer) servletContext.getAttribute("count");
     return "当前在线人数" + count;
   }
+
+  @GetMapping("/request")
+  public String getRequestInfo(HttpServletRequest request) {
+    logger.info("requestListener中得初始化器的name数据{}", request.getAttribute("name"));
+    return "success";
+  }
 }

@@ -2,16 +2,23 @@ package com.zihexin.course.service.imp;
 
 import com.zihexin.course.dao.UserMapper;
 import com.zihexin.course.entity.User;
+import com.zihexin.course.event.MyEvent;
 import com.zihexin.course.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
 
 /**
  * @author 封心
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+  @Resource
+  private ApplicationContext applicationContext;
 
   @Autowired
   private UserMapper userMapper;
@@ -51,5 +58,19 @@ public class UserServiceImpl implements UserService {
   @Override
   public User getUser() {
     return new User(1L, "王某", "123456");
+  }
+
+  /**
+   * 在 service 中注入 ApplicationContext，在业务代码处理完之后，
+   * 通过 ApplicationContext 对象手动发 布 MyEvent 事件，
+   * 这样我们自定义的监听器就能监听到，然后处理监听器中写好的业务逻辑
+   * @return
+   */
+  @Override
+  public User getUser2(){
+    User user = new User(1L, "王某", "123456");
+    MyEvent myEvent = new MyEvent(this, user);
+    applicationContext.publishEvent(myEvent);
+    return user;
   }
 }
