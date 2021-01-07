@@ -35,6 +35,12 @@ public class MyInterceptor implements HandlerInterceptor {
     String methodName = method.getName();
     logger.info("===拦截到了方法:{},在该方法执行之前执行===", methodName);
     //返回true才会继续执行,返回false则取消当前请求
+    String token = request.getParameter("token");
+    //判断用户有没有登陆，一般登陆之后的用户都有一个对应的token
+    if (null == token || "".equals(token)) {
+      logger.info("用户未登录,没有权限执行...请登录");
+      return false;
+    }
     return true;
   }
 
