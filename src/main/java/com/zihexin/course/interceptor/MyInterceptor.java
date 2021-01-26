@@ -1,6 +1,6 @@
 package com.zihexin.course.interceptor;
 
-import com.zihexin.course.exceptionHandler.GlobalExceptionHandler;
+import com.zihexin.course.annotation.UnInterception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
@@ -37,8 +37,12 @@ public class MyInterceptor implements HandlerInterceptor {
     //返回true才会继续执行,返回false则取消当前请求
     String token = request.getParameter("token");
     //判断用户有没有登陆，一般登陆之后的用户都有一个对应的token
-    if (null == token || "".equals(token)) {
+    /*if (null == token || "".equals(token)) {
       logger.info("用户未登录,没有权限执行...请登录");
+      return false;
+    }*/
+    UnInterception unInterception = method.getAnnotation(UnInterception.class);
+    if (null == unInterception) {
       return false;
     }
     return true;
