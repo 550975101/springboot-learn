@@ -1,7 +1,10 @@
 package com.zihexin.course.entity;
 
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Map;
 
 /**
  * @author 封心
@@ -60,5 +63,22 @@ public class User {
       ", username='" + username + '\'' +
       ", password='" + password + '\'' +
       '}';
+  }
+
+  public static void main(String[] args) {
+    User user = new User();
+    user.setId(1L);
+    user.setUsername("啦啦啦");
+    user.setPassword("123123");
+    String s = JSONObject.toJSONString(user);
+    System.out.println("对象转json字符串" + s);
+
+    User user1 = JSONObject.parseObject(s, User.class);
+    System.out.println("json解析成对象" + user1);
+
+    Map map = JSONObject.parseObject(s, Map.class);
+    System.out.println(map.get("id"));
+    System.out.println(map.get("username"));
+    System.out.println(map.get("password"));
   }
 }
